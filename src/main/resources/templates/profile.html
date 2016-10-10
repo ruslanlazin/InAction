@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <title>User's Profile</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+What are you thinking about?
+<form action="addThought" method="POST">
+    <input type="text" name="thought"/>
+    <input type="submit">Save</input>
+</form>
+
+<h1>Last thoughts</h1>
+<ul>
+    <li th:each="thought : ${thoughts}"
+        th:text="${thought.text}">
+        Why People Don't Fly? This is a question.
+    </li>
+</ul>
+
+</body>
+</html>
