@@ -2,49 +2,46 @@ package ua.pp.lazin.entity;
 
 
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import javax.persistence.*;
 import java.util.*;
 
 @Component
 @SessionScope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Entity
+@Table(name = "users")
 public class User {
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     private String login;
 
     private String password;
 
-    private String email = "churchiil@gov.uk";
+    private String email;
 
-    private String name = "Winston Spencer Churchill";
+    private String name;
 
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> skills = new ArrayList<>();
 
-    private Calendar birthday = new GregorianCalendar(1874, 10, 30);
+    private Calendar birthday;
 
-    private String address = "10, Downing street, London";
+    private String address;
 
-    private String phone = "+10(852)545-55-88";
+    private String phone;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Thought> thoughts = new ArrayList<>();
 
-    {
-        thoughts.add(new Thought("Success is not final, failure is not fatal: " +
-                "it is the courage to continue that counts."));
-        thoughts.add(new Thought("A pessimist sees the difficulty in every opportunity;" +
-                " an optimist sees the opportunity in every difficulty."));
-        thoughts.add(new Thought("If you're going through hell, keep going."));
+    private String pathToImage;
 
-        skills.add("drink");
-        skills.add("smoke");
-        skills.add("speak");
-        skills.add("win wars");
-        skills.add("lead");
-    }
-
-    private String pathToImage = "/images/churchill.jpg";
+    @ManyToMany
+    private Set<User> friends = new HashSet<>();
 
     public String getEmail() {
         return email;
@@ -129,11 +126,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", Name='" + name + '\'' +
-                '}';
+        return "User name= '" + name + "" ;
     }
 }
