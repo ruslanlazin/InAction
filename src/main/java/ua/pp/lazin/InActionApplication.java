@@ -12,8 +12,5 @@ public class InActionApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(InActionApplication.class, args);
-//
-//		ApplicationContext context =
-//				new ClassPathXmlApplicationContext("Beans.xml");
 	}
 }

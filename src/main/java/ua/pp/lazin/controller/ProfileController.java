@@ -1,41 +1,42 @@
 package ua.pp.lazin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import ua.pp.lazin.dao.UserDao;
 import ua.pp.lazin.entity.Thought;
 import ua.pp.lazin.entity.User;
 
+import javax.inject.Inject;
 import javax.persistence.*;
 import java.util.*;
 
 @Controller
 @RequestMapping("/profile")
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ProfileController {
 
+
     private User user;
+    private UserDao userDao;
 
-    @PersistenceUnit(name="entityManagerFactory")
-    private EntityManagerFactory entityManagerFactory;
-
-    @Autowired()
-    ProfileController(User user) {
+    @Inject
+    public ProfileController(User user, UserDao userDao) {
         this.user = user;
+        this.userDao = userDao;
     }
 
     @RequestMapping("")
     public ModelAndView viewProfile() {
 
         ModelAndView profile = new ModelAndView("profile");
-
-        EntityManager em = entityManagerFactory.createEntityManager();
-        user = em.find(User.class, 48L);
-        user.getThoughts().stream().forEach(System.out::println);
-        em.close();
-
+        Collections.sort(user.getThoughts());
+        System.out.println(user);
         profile.addObject("user", user);
         return profile;
     }
@@ -46,7 +47,10 @@ public class ProfileController {
 
         ModelAndView profile = new ModelAndView("profile");
         List<Thought> thoughts = user.getThoughts();
-        thoughts.add(0, new Thought(thought, user));
+        thoughts.add(new Thought(thought, user));
+        user = userDao.update(user);
+
+
 //        User winston = new User();
 //
 //        winston.setLogin("churchill");
@@ -68,19 +72,13 @@ public class ProfileController {
 //
 //        List<Thought> thoughts1 = new ArrayList<>();
 //        thoughts1.add(new Thought("Success is not final, failure is not fatal: " +
-//                "it is the courage to continue that counts.", new Date(2016, 10, 04), winston));
+//                "it is the courage to continue that counts.", new Date(116, 8, 04), winston));
 //        thoughts1.add(new Thought("A pessimist sees the difficulty in every opportunity;" +
-//                " an optimist sees the opportunity in every difficulty.", new Date(2016, 10, 05), winston));
-//        thoughts1.add(new Thought("If you're going through hell, keep going.", new Date(2016, 10, 12), winston));
+//                " an optimist sees the opportunity in every difficulty.", new Date(116, 9, 05), winston));
+//        thoughts1.add(new Thought("If you're going through hell, keep going.", new Date(116, 9, 12), winston));
 //        winston.setThoughts(thoughts1);
 //
-//
-//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ua.pp.lazin.inaction");
-//        EntityManager em = entityManagerFactory.createEntityManager();
-//
-//        em.getTransaction().begin();
-//        em.persist(winston);
-//        em.getTransaction().commit();
+//        userDao.persist(winston);
 
         return "OK";
 

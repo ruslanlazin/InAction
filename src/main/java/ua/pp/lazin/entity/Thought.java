@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Thought {
+public class Thought implements Comparable {
 
     @Id
     @GeneratedValue
@@ -47,7 +47,17 @@ public class Thought {
 
     @Override
     public String toString() {
-        return "Thought{'" + text + '\'' +
-                '}';
+        return "Thought {" + text + "}";
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Thought) {
+            Thought that = (Thought) o;
+            return that.pubDate.compareTo(this.pubDate);
+        } else {
+            throw new IllegalArgumentException("Incomparable types");
+        }
     }
 }
