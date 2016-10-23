@@ -39,6 +39,24 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User getUserbyId(Long id) {
+        EntityManager em = null;
+        try {
+            em = entityManagerFactory.createEntityManager();
+            User user = em.find(User.class, id);
+            if (user != null) {
+                user.getThoughts().forEach(System.out::println);      //todo remove println
+                user.getFriends().forEach(System.out::println);       //todo remove println
+            }
+            return user;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+
+    @Override
     public User update(User user) {
         EntityManager em = null;
         try {

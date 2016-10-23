@@ -1,11 +1,11 @@
 window.onload = function () {
-    document.getElementById("addThought").onclick = addThought;
+    document.getElementById('addThought').onclick = addThought;
 }
 
 
 function addThought() {
 
-    var thought = document.getElementById("thoughtarea").value;
+    var thought = document.getElementById('thoughtarea').value;
 
     if (thought.length > 0) {
         var xmlhttp = getXmlHttp(); // Создаём объект XMLHTTP
@@ -17,17 +17,17 @@ function addThought() {
         newTr.innerHTML = '<td>' + thought + '</td><td> a moment ago </td>';
         var thoughtsTable = document.getElementById('thoughtsTable');
         thoughtsTable.insertBefore(newTr, thoughtsTable.firstChild);
-        document.getElementById("thoughtarea").value = '';
+        document.getElementById('thoughtarea').value = '';
     }
 }
 
 function getXmlHttp() {
     var xmlhttp;
     try {
-        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
     } catch (e) {
         try {
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
         } catch (E) {
             xmlhttp = false;
         }

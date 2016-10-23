@@ -1,15 +1,22 @@
 package ua.pp.lazin.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import ua.pp.lazin.dao.UserDao;
 import ua.pp.lazin.dto.UserWrap;
+import ua.pp.lazin.entity.Thought;
+import ua.pp.lazin.entity.User;
 
+import java.util.Collections;
+import java.util.List;
 
 @Controller
-@RequestMapping
+@RequestMapping()
 public class LoginController {
 
     private UserWrap userWrap;
@@ -21,18 +28,11 @@ public class LoginController {
         this.userDao = userDao;
     }
 
-    @RequestMapping("/")
-    public String welcome() {
-        return "login";
-    }
 
-//    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    public ModelAndView login(@RequestParam String login, @RequestParam String password) {
-//        System.out.println("in login");                 // todo remove
-//        userDto = userDao.findUserByLogin(login);
-//        System.out.println("userInLogin" + userDto);
-//        ModelAndView profile = new ModelAndView("redirect:/profile");
-//        profile.addObject("userDto", userDto);
-//        return profile;
-//    }
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(@RequestParam String login, @RequestParam String password) {
+        User user = userDao.findUserByLogin(login);    //todo add password check
+        userWrap.setUser(user);
+        return "redirect:/profile";
+    }
 }

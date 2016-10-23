@@ -24,22 +24,19 @@ public class ProfileController {
         this.userDao = userDao;
     }
 
-
     @RequestMapping("/profile")
     public ModelAndView viewProfile() {
         User user = userWrap.getUser();
+        if (user==null){
+            ModelAndView error = new ModelAndView("error");
+            error.addObject("message","Such user does not exist");
+            return error;
+        }
         ModelAndView profile = new ModelAndView("profile");
         Collections.sort(user.getThoughts());
         System.out.println(user);
         profile.addObject("user", user);
         return profile;
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@RequestParam String login, @RequestParam String password) {
-        User user = userDao.findUserByLogin(login);
-        userWrap.setUser(user);
-        return "redirect:/profile";
     }
 
     @RequestMapping("/profile/addThought")
@@ -51,18 +48,7 @@ public class ProfileController {
         userWrap.setUser(userDao.update(user));
         return "OK";
     }
-
-    @RequestMapping("/wall")
-    public ModelAndView viewWall() {
-        User user = userWrap.getUser();
-        ModelAndView wall = new ModelAndView("wall");
-        List<Thought> wallOfThoughts = user.getThoughts();
-        for (User friend : user.getFriends()) {
-            wallOfThoughts.addAll(friend.getThoughts());
-        }
-        Collections.sort(wallOfThoughts);
-        wall.addObject("wallOfThoughts", wallOfThoughts);
-
+}
 
 //        User winston = new User();//
 //        winston.setLogin("vas");
@@ -89,6 +75,4 @@ public class ProfileController {
 //
 //        userDao.persist(winston);
 
-        return wall;
-    }
-}
+

@@ -3,7 +3,6 @@ package ua.pp.lazin.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,30 +16,28 @@ import java.util.List;
 
 @Controller
 @RequestMapping()
-public class WallController {
+public class FrendsProfileController {
 
     private UserWrap userWrap;
+    private UserDao userDao;
 
     @Autowired
-    public WallController(UserWrap userWrap) {
+    public FrendsProfileController(UserWrap userWrap, UserDao userDao) {
         this.userWrap = userWrap;
+        this.userDao = userDao;
     }
 
-    @RequestMapping("/wall")
-    public ModelAndView viewWall() {
-        User user = userWrap.getUser();
+    @RequestMapping("/friendsProfile")
+    public ModelAndView viewProfile(@RequestParam long id) {
+        User user = userDao.getUserbyId(id);
         if (user==null){
             ModelAndView error = new ModelAndView("error");
-            error.addObject("message","Session has expired. Please login");
+            error.addObject("message","Such user does not exist");
             return error;
         }
-        ModelAndView wall = new ModelAndView("wall");
-        List<Thought> wallOfThoughts = user.getThoughts();
-        for (User friend : user.getFriends()) {
-            wallOfThoughts.addAll(friend.getThoughts());
-        }
-        Collections.sort(wallOfThoughts);
-        wall.addObject("wallOfThoughts", wallOfThoughts);
-        return wall;
+        Collections.sort(user.getThoughts());
+        ModelAndView friendsProfile = new ModelAndView("friendsProfile");
+        friendsProfile.addObject("user", user);
+        return friendsProfile;
     }
 }
