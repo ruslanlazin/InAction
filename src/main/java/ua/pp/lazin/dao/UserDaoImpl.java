@@ -17,8 +17,9 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findUserByLogin(String login) {
-        EntityManager em = entityManagerFactory.createEntityManager();
+        EntityManager em = null;
         try {
+            em = entityManagerFactory.createEntityManager();
             TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.login =:user_login", User.class);
             query.setParameter("user_login", login);
             List<User> users = query.getResultList();
@@ -31,32 +32,42 @@ public class UserDaoImpl implements UserDao {
                 return user;
             }
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public User update(User user) {
-        EntityManager em = entityManagerFactory.createEntityManager();
+        EntityManager em = null;
         try {
+            em = entityManagerFactory.createEntityManager();
             em.getTransaction().begin();
             User updatedUser = em.merge(user);
             em.getTransaction().commit();
             return updatedUser;
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+
         }
     }
 
     @Override
     public void persist(User user) {
-        EntityManager em = entityManagerFactory.createEntityManager();
+        EntityManager em = null;
         try {
+            em = entityManagerFactory.createEntityManager();
             em.getTransaction().begin();
             em.persist(user);
             em.getTransaction().commit();
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+
         }
     }
 }
