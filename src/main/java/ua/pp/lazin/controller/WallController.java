@@ -9,24 +9,24 @@ import ua.pp.lazin.entity.Thought;
 import ua.pp.lazin.entity.User;
 
 import java.util.List;
-
-@Controller
-@RequestMapping("/wall")
-public class WallController {
-
-    private User user;
-
-    @Autowired()
-    WallController(User user) {
-        this.user = user;
-    }
-
-    @RequestMapping("")
-    public ModelAndView viewProfile() {
-
-        ModelAndView profile = new ModelAndView("profile");
-        profile.addObject("user", user);
-        return profile;
-    }
-
-}
+//
+//@Controller
+//@RequestMapping("/wall")
+//public class WallController {
+//
+//    private User user;
+//
+//    @Autowired()
+//    WallController(User user) {
+//        this.user = user;
+//    }
+//
+//    @RequestMapping("")
+//    public ModelAndView viewProfile() {
+//
+//        ModelAndView profile = new ModelAndView("profile");
+//        profile.addObject("user", user);
+//        return profile;
+//    }
+//
+//}

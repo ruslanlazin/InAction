@@ -26,7 +26,8 @@ public class UserDaoImpl implements UserDao {
                 return null;
             } else {
                 User user = users.get(0);
-                user.getThoughts().stream().forEach(System.out::println);      //todo remove println
+                user.getThoughts().forEach(System.out::println);      //todo remove println
+                user.getFriends().forEach(friend -> friend.getThoughts().forEach(System.out::println)); //todo remove println
                 return user;
             }
         } finally {

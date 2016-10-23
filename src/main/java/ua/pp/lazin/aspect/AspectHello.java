@@ -11,6 +11,6 @@ public class AspectHello {
 
     @Before("execution(* ua..*.*(..))")
     public void printHello() {
-        System.out.println("Hello");
+        System.out.println("Hello from Aspect");
     }
 }

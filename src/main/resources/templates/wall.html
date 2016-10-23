@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Wall</title>
+    <meta charset="utf-8"/>
+
+    <link href="/css/profile.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+</head>
+<body>
+<div class="container">
+
+
+    <div class="thoughts">
+        <h1> What are you thinking about?</h1>
+
+        <table id="thoughtsTable">
+
+            <tr id="tr" th:each="thought : ${wallOfThoughts}">
+                <td th:text="${thought.text}">Why People Don't Fly? This is a question.</td>
+                <td th:text="${#dates.format(thought.pubDate, 'dd MMM yyyy HH:mm')}">10 Oct 2016 22:15</td>
+                <td th:text="${thought.author.name}">Pushkin</td>
+                <td> <img th:src="${thought.author.pathToImage}" width="65px"/></td>
+            </tr>
+
+
+        </table>
+    </div>
+
+</div>
+
+
+</body>
+</html>

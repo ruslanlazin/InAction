@@ -23,7 +23,7 @@
 
                     <div class="username">
                         <h2 th:text="${user.name}">Gurdeep Osahan </h2>
-                        <p><i class="fa fa-briefcase"></i> Crisis management</p>
+                        <p th:text="${user.profession}"> Crisis management</p>
 
                         <a href="https://web.facebook.com" target="_blank" class="btn-o"> <i
                                 class="fa fa-user-plus"></i> Add Friend </a>
@@ -69,8 +69,8 @@
     <div class="thoughts">
         <h1> What are you thinking about?</h1>
 
-        <textarea id="thoughtarea" cols="120" rows="8" name="thought"></textarea>
-        <button id="addThought" type="button" width="600px">Add</button>
+        <textarea id="thoughtarea" cols="110" rows="8" name="thought"></textarea>
+        <button id="addThought" type="button">Add</button>
 
         <h1>Last thoughts</h1>
 
@@ -83,6 +83,17 @@
 
 
         </table>
+    </div>
+</div>
+<div class="friends" style="position: absolute">
+    <h2>Friends</h2>
+    <div th:each="friend : ${user.friends}">
+        <div class="singleFriend">
+            <p th:text="${friend.name}">Anastasia</p>
+            <img th:src="${friend.pathToImage}" width="120px"/>
+        </div>
+
+
     </div>
 
 </div>
