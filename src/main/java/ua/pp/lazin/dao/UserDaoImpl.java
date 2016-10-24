@@ -46,7 +46,7 @@ public class UserDaoImpl implements UserDao {
             User user = em.find(User.class, id);
             if (user != null) {
                 user.getThoughts().forEach(System.out::println);      //todo remove println
-                user.getFriends().forEach(System.out::println);       //todo remove println
+                user.getFriends().forEach(friend -> friend.getThoughts().forEach(System.out::println)); //todo remove println
             }
             return user;
         } finally {
@@ -64,12 +64,15 @@ public class UserDaoImpl implements UserDao {
             em.getTransaction().begin();
             User updatedUser = em.merge(user);
             em.getTransaction().commit();
+            if (updatedUser != null) {
+                updatedUser.getThoughts().forEach(System.out::println);      //todo remove println
+                updatedUser.getFriends().forEach(friend -> friend.getThoughts().forEach(System.out::println)); //todo remove println
+            }
             return updatedUser;
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
             }
-
         }
     }
 
@@ -85,7 +88,6 @@ public class UserDaoImpl implements UserDao {
             if (em != null && em.isOpen()) {
                 em.close();
             }
-
         }
     }
 }

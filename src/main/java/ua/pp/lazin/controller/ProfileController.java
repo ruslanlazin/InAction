@@ -1,6 +1,8 @@
 package ua.pp.lazin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,9 +29,9 @@ public class ProfileController {
     @RequestMapping("/profile")
     public ModelAndView viewProfile() {
         User user = userWrap.getUser();
-        if (user==null){
+        if (user == null) {
             ModelAndView error = new ModelAndView("error");
-            error.addObject("message","Such user does not exist");
+            error.addObject("message", "Such user does not exist");
             return error;
         }
         ModelAndView profile = new ModelAndView("profile");

@@ -24,13 +24,9 @@
                     <div class="username">
                         <h2 th:text="${user.name}">Gurdeep Osahan </h2>
                         <p th:text="${user.profession}"> Crisis management</p>
-
-                        <a href="https://web.facebook.com" target="_blank" class="btn-o"> <i
-                                class="fa fa-user-plus"></i> Add Friend </a>
-                        <a href="https://www.instagram.com" target="_blank" class="btn-o"> <i
-                                class="fa fa-plus"></i> Follow </a>
-
                     </div>
+
+
                 </div>
 
             </li>
@@ -63,6 +59,22 @@
 
                 </ul>
             </li>
+
+            <li>
+                <div class="link"><i class="fa fa-users"></i>Friends
+                    <small th:text="${#lists.size(user.friends)}">53</small>
+                    <i class="fa fa-chevron-down"></i></div>
+                <ul class="submenu">
+                    <li class="photosgurdeep" th:each="friend : ${user.friends}">
+                        <a th:href="|/friendsProfile?id=${friend.id}|">
+                            <img class="img-responsive iamgurdeeposahan" th:src="${friend.pathToImage}"/>
+                        </a>
+
+                    </li>
+                </ul>
+            </li>
+
+
         </ul>
     </div>
 
@@ -85,14 +97,13 @@
         </table>
     </div>
 </div>
-<div class="friends" style="position: absolute">
+<div class="friends">
     <h2>Friends</h2>
     <div th:each="friend : ${user.friends}">
         <div class="singleFriend">
-            <p th:text="${friend.name}">Anastasia</p>
-            <img th:src="${friend.pathToImage}" width="120px"/>
+            <div><a th:text="${friend.name}" th:href="|/friendsProfile?id=${friend.id}|">Anastasia</a></div>
+            <a th:href="|/friendsProfile?id=${friend.id}|"> <img th:src="${friend.pathToImage}" width="120px"/></a>
         </div>
-
 
     </div>
 

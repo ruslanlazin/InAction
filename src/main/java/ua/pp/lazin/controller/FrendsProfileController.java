@@ -29,6 +29,9 @@ public class FrendsProfileController {
 
     @RequestMapping("/friendsProfile")
     public ModelAndView viewProfile(@RequestParam long id) {
+        if (id == userWrap.getUser().getId()){
+            return new ModelAndView("redirect:/profile");
+        }
         User user = userDao.getUserbyId(id);
         if (user==null){
             ModelAndView error = new ModelAndView("error");

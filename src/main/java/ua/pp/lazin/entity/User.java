@@ -22,6 +22,11 @@ public class User {
 
     private String password;
 
+    private Boolean enabled = true;
+
+    @ElementCollection()
+    private List<String> roles = new ArrayList<>();
+
     private String email;
 
     private String name;

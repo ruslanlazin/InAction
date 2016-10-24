@@ -3,7 +3,7 @@
 <head>
     <title>Wall</title>
     <meta charset="utf-8"/>
-
+    <script type="text/javascript" src="/js/rest.js"/>
     <link href="/css/profile.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 </head>
@@ -13,16 +13,21 @@
 
     <div class="thoughts">
         <h1> What are you thinking about?</h1>
-
+        <div>
+            <textarea id="thoughtarea" cols="110" rows="8" name="thought"></textarea>
+            <button id="addThought" type="button">Add</button>
+        </div>
         <table id="thoughtsTable">
 
             <tr id="tr" th:each="thought : ${wallOfThoughts}">
                 <td th:text="${thought.text}">Why People Don't Fly? This is a question.</td>
                 <td th:text="${#dates.format(thought.pubDate, 'dd MMM yyyy HH:mm')}">10 Oct 2016 22:15</td>
-                <td th:text="${thought.author.name}">Pushkin</td>
-                <td> <img th:src="${thought.author.pathToImage}" width="65px"/></td>
+                <td>
+                    <a th:href="'/friendsProfile?id=' + ${thought.author.id}"
+                       th:text="${thought.author.name}">Pushkin</a></td>
+                <td><a th:href="'/friendsProfile?id=' + ${thought.author.id}">
+                    <img th:src="${thought.author.pathToImage}" width="65px"/></a></td>
             </tr>
-
 
         </table>
     </div>
