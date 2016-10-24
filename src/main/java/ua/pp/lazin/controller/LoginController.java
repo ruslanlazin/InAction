@@ -42,13 +42,6 @@ public class LoginController {
         }
         return "redirect:profile";
     }
-//
-//    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    public String login(@RequestParam String login, @RequestParam String password) {
-//        User user = userDao.findUserByLogin(login);
-//        userWrap.setUser(user);
-//        return "redirect:/profile";
-//}
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginWelcome() {

@@ -11,7 +11,8 @@ import ua.pp.lazin.dto.UserWrap;
 import ua.pp.lazin.entity.Thought;
 import ua.pp.lazin.entity.User;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping()
@@ -31,12 +32,17 @@ public class ProfileController {
         User user = userWrap.getUser();
         if (user == null) {                                         //todo remove(Spring Security must do it?)
             ModelAndView error = new ModelAndView("error");
-            error.addObject("message", "Such user does not exist");
+            error.addObject("message", "Session expired");
             return error;
         }
         ModelAndView profile = new ModelAndView("profile");
+        profile.addObject("isMine", true);
+        if (user.getRoles().contains("ROLE_ADMIN")) {
+            profile.addObject("isAdmin", true);
+        } else {
+            profile.addObject("isAdmin", false);
+        }
         Collections.sort(user.getThoughts());
-        System.out.println(user);
         profile.addObject("user", user);
         return profile;
     }
@@ -51,30 +57,5 @@ public class ProfileController {
         return "OK";
     }
 }
-
-//        User winston = new User();//
-//        winston.setLogin("vas");
-//        winston.setPassword("vas");
-//        winston.setEmail("vasya123@mail.ru");
-//        winston.setName("Вася борщаговский");
-//        winston.setBirthday(new GregorianCalendar(1997, 1, 27));
-//        winston.setAddress("Борщага");
-//        winston.setPhone("Нормальный");
-//        winston.setPathToImage("/images/vas.jpg");
-//
-//        List<String> skills = new ArrayList<>();
-//        skills.add("Решаю вопросы");
-//        winston.setSkills(skills);
-//
-//        winston.setProfession("Нормальный пацан");
-//
-//        List<Thought> thoughts1 = new ArrayList<>();
-//        thoughts1.add(new Thought("Пацики, семки есть?", new Date(116, 8, 3), winston));
-//        thoughts1.add(new Thought("Может по пиву?", new Date(116, 9, 7), winston));
-//        thoughts1.add(new Thought("Чет вы парни говорите непоняно", new Date(116, 9, 11), winston));
-//        thoughts1.add(new Thought("Не, ну хорош мямлить, нормально пишите!", new Date(116, 9, 15), winston));
-//        winston.setThoughts(thoughts1);
-//
-//        userDao.persist(winston);
 
 

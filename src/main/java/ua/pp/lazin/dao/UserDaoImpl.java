@@ -27,8 +27,7 @@ public class UserDaoImpl implements UserDao {
                 return null;
             } else {
                 User user = users.get(0);
-                user.getThoughts().forEach(System.out::println);      //todo remove println
-                user.getFriends().forEach(friend -> friend.getThoughts().forEach(System.out::println)); //todo remove println
+                intializeFields(user);
                 return user;
             }
         } finally {
@@ -45,8 +44,7 @@ public class UserDaoImpl implements UserDao {
             em = entityManagerFactory.createEntityManager();
             User user = em.find(User.class, id);
             if (user != null) {
-                user.getThoughts().forEach(System.out::println);      //todo remove println
-                user.getFriends().forEach(friend -> friend.getThoughts().forEach(System.out::println)); //todo remove println
+                intializeFields(user);
             }
             return user;
         } finally {
@@ -65,8 +63,7 @@ public class UserDaoImpl implements UserDao {
             User updatedUser = em.merge(user);
             em.getTransaction().commit();
             if (updatedUser != null) {
-                updatedUser.getThoughts().forEach(System.out::println);      //todo remove println
-                updatedUser.getFriends().forEach(friend -> friend.getThoughts().forEach(System.out::println)); //todo remove println
+                intializeFields(updatedUser);
             }
             return updatedUser;
         } finally {
@@ -89,5 +86,10 @@ public class UserDaoImpl implements UserDao {
                 em.close();
             }
         }
+    }
+
+    private void intializeFields(User user) {
+        user.getThoughts().forEach(System.out::println);      //todo remove println
+        user.getFriends().forEach(friend -> friend.getThoughts().forEach(System.out::println)); //todo remove println
     }
 }

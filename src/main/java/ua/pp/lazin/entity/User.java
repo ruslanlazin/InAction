@@ -30,8 +30,8 @@ public class User {
 
     private Boolean enabled = true;
 
-    @ElementCollection()
-    private List<String> roles = new ArrayList<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> roles = new HashSet<>();
 
     private String email;
 
@@ -40,7 +40,7 @@ public class User {
     private String profession;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> skills = new ArrayList<>();
+    private Set<String> skills = new HashSet<>();
 
     private Calendar birthday;
 
@@ -111,14 +111,6 @@ public class User {
         this.pathToImage = pathToImage;
     }
 
-    public List<String> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<String> skills) {
-        this.skills = skills;
-    }
-
     public Calendar getBirthday() {
         return birthday;
     }
@@ -167,12 +159,20 @@ public class User {
         this.enabled = enabled;
     }
 
-    public List<String> getRoles() {
+    public Set<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(Set<String> roles) {
         this.roles = roles;
+    }
+
+    public Set<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<String> skills) {
+        this.skills = skills;
     }
 
     @Override

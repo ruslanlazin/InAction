@@ -29,17 +29,19 @@ public class FrendsProfileController {
 
     @RequestMapping("/friendsProfile")
     public ModelAndView viewProfile(@RequestParam long id) {
-        if (id == userWrap.getUser().getId()){
+        if (id == userWrap.getUser().getId()) {
             return new ModelAndView("redirect:/profile");
         }
         User user = userDao.getUserbyId(id);
-        if (user==null){
+        if (user == null) {
             ModelAndView error = new ModelAndView("error");
-            error.addObject("message","Such user does not exist");
+            error.addObject("message", "Such user does not exist");
             return error;
         }
         Collections.sort(user.getThoughts());
-        ModelAndView friendsProfile = new ModelAndView("friendsProfile");
+        ModelAndView friendsProfile = new ModelAndView("profile");
+        friendsProfile.addObject("isMine", false);
+        friendsProfile.addObject("isAdmin", false);
         friendsProfile.addObject("user", user);
         return friendsProfile;
     }

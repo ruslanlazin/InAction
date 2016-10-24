@@ -12,23 +12,17 @@
 <body>
 <div class="container">
     <div class="row">
-
-        <h1>User Profile</h1>
-        <!-- Contenedor -->
+        <h1><span th:if="${isMine}">my </span>profile</h1>
         <ul id="accordion" class="accordion">
             <li>
                 <div class="col col_4 iamgurdeep-pic">
                     <img class="img-responsive face" alt="myPhoto"
                          th:src="${user.pathToImage}"/>
-
                     <div class="username">
                         <h2 th:text="${user.name}">Gurdeep Osahan </h2>
                         <p th:text="${user.profession}"> Crisis management</p>
                     </div>
-
-
                 </div>
-
             </li>
             <li>
                 <div class="link"><i class="fa fa-globe"></i>About<i class="fa fa-chevron-down"></i></div>
@@ -54,12 +48,9 @@
                         <th th:each="skill : ${user.skills}">
                             <span class="tags" th:text="${skill}">skill</span>
                         </th>
-                    </a>
-                    </li>
-
+                    </a></li>
                 </ul>
             </li>
-
             <li>
                 <div class="link"><i class="fa fa-users"></i>Friends
                     <small th:text="${#lists.size(user.friends)}">53</small>
@@ -69,46 +60,39 @@
                         <a th:href="|/friendsProfile?id=${friend.id}|">
                             <img class="img-responsive iamgurdeeposahan" th:src="${friend.pathToImage}"/>
                         </a>
-
                     </li>
                 </ul>
             </li>
-
-
         </ul>
     </div>
-
     <div class="thoughts">
-        <h1> What are you thinking about?</h1>
-
-        <textarea id="thoughtarea" cols="110" rows="8" name="thought"></textarea>
-        <button id="addThought" type="button">Add</button>
-
+        <div th:if="${isMine}">
+            <h1> What are you thinking about?</h1>
+            <textarea id="thoughtarea" cols="110" rows="8" name="thought"></textarea>
+            <button id="addThought" type="button">Add</button>
+        </div>
         <h1>Last thoughts</h1>
-
         <table id="thoughtsTable">
-
             <tr id="tr" th:each="thought : ${user.thoughts}">
                 <td th:text="${thought.text}">Why People Don't Fly? This is a question.</td>
                 <td th:text="${#dates.format(thought.pubDate, 'dd MMM yyyy HH:mm')}">10 Oct 2016 22:15</td>
             </tr>
-
-
         </table>
     </div>
 </div>
-<div class="friends">
-    <h2>Friends</h2>
+
+<div class="left-panel">
+    <div><a th:href="@{/wall}">Main Page</a></div>
+    <div><a th:href="@{/logout}">Logout</a></div>
+    <div th:if="${isAdmin}"><a th:href="@{/admin}">Admin Page</a></div>
+    <div th:unless="${isMine}"><a th:href="@{/profile}">My Profile</a></div>
+    <h3>Friends</h3>
     <div th:each="friend : ${user.friends}">
         <div class="singleFriend">
             <div><a th:text="${friend.name}" th:href="|/friendsProfile?id=${friend.id}|">Anastasia</a></div>
             <a th:href="|/friendsProfile?id=${friend.id}|"> <img th:src="${friend.pathToImage}" width="120px"/></a>
         </div>
-
     </div>
-
 </div>
-
-
 </body>
 </html>
