@@ -13,8 +13,13 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private DataSource dataSource;
+
     @Autowired
-    DataSource dataSource;
+    public WebSecurityConfig(DataSource dataSource) {
+        super();
+        this.dataSource = dataSource;
+    }
 
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
@@ -33,11 +38,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/profile").access("hasRole('ROLE_USER')")
-                .antMatchers("/wall").access("hasRole('ROLE_USER')")
-                .antMatchers("/").access("hasRole('ROLE_USER')")
-                .antMatchers("/friendsProfile").access("hasRole('ROLE_USER')")
-                .anyRequest().permitAll()
+
+                .antMatchers("/login").permitAll()
+                .antMatchers("/403").permitAll()
+                .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/*").access("hasRole('ROLE_USER')")
                 .and()
                 .formLogin().loginPage("/login")
                 .usernameParameter("login").passwordParameter("password")

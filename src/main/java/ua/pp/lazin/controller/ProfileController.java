@@ -29,7 +29,7 @@ public class ProfileController {
     @RequestMapping("/profile")
     public ModelAndView viewProfile() {
         User user = userWrap.getUser();
-        if (user == null) {
+        if (user == null) {                                         //todo remove(Spring Security must do it?)
             ModelAndView error = new ModelAndView("error");
             error.addObject("message", "Such user does not exist");
             return error;
